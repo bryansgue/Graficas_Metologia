@@ -38,10 +38,10 @@ ISE_MiL_z = trapz(tiempo1, Err_MiL_z.^2);
 ISE_MiL_w = trapz(tiempo1, Err_MiL_w.^2);
 
 % Calcular el ISE para cada coordenada
-ISE_HiL_x = trapz(tiempo1, Err_HiL_x.^2);
-ISE_HiL_y = trapz(tiempo1, Err_HiL_y.^2);
-ISE_HiL_z = trapz(tiempo1, Err_HiL_z.^2);
-ISE_HiL_w = trapz(tiempo1, Err_HiL_w.^2);
+ISE_HiL_x = trapz(tiempo2, Err_HiL_x.^2);
+ISE_HiL_y = trapz(tiempo2, Err_HiL_y.^2);
+ISE_HiL_z = trapz(tiempo2, Err_HiL_z.^2);
+ISE_HiL_w = trapz(tiempo2, Err_HiL_w.^2);
 
 ERROR = [ISE_MiL_x,ISE_HiL_x;
         ISE_MiL_y,ISE_HiL_y;
@@ -102,23 +102,39 @@ posd = [0.5+0.3 0.35 0.08 0.25];
 % Crear la figura
 figure('Position', [500 500 sizeX sizeY])
 
-% Crear el primer sistema de ejes
+%% FIGURA 1.1 Crear el primer sistema de ejes
 ax1 = axes('Position', pos1);
-plot(tiempo, Err_MiL_x.^2, 'r', 'LineWidth', linewidth_1)
+plot(tiempo, sqrt(Err_MiL_x.^2), 'r', 'LineWidth', linewidth_1)
 hold on
-plot(tiempo, Err_HiL_x.^2, 'b', 'LineWidth', linewidth_1)
-ylabel('ECM')
+plot(tiempo, sqrt(Err_HiL_x.^2), 'b', 'LineWidth', linewidth_1)
+ylabel('$RMSE~\mu_l$', 'Interpreter', 'latex')
 
 title('~~~~~~~~~~~~~~~~~~~~~~~(a)', 'Interpreter', 'latex')
-legend({'$\mu_{l_{MiL}}$', '$\mu_{l_{HiL}}$'}, 'Interpreter', 'latex')
+legend({'$MiL$', '$HiL$'}, 'Interpreter', 'latex')
 grid on
+
+%% Figure properties
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
+ax_1.XLim = [0 t_iden(end)];
+
 
 %% GRAFICA 1.2
 axa = axes('Position', posa);
-x = [1];
+
 valores = ERROR(1,:);
 % Definir los datos
-
 etiquetas_x = {'MiL', 'HiL'}; % Etiquetas para el eje x
 
 % Crear la gráfica de barras
@@ -126,122 +142,222 @@ bar(valores);
 
 % Obtener los límites de los ejes y
 ylim = get(gca, 'YLim');
-
 y_mid = mean(ylim);
 
-
-text(3.6, y_mid, '$ISE_{\mu_l} $', 'Interpreter', 'latex', 'Rotation', -90, ...
+text(3.6, y_mid, '$ISE~\mu_l $', 'Interpreter', 'latex', 'Rotation', -90, ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
 
 % Configurar etiquetas en el eje x
 set(gca, 'XTickLabel', etiquetas_x);
+grid on
+
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
 
 
 %% GRAFICA 2
 
 % Crear el segundo sistema de ejes
 ax2 = axes('Position', pos2);
-plot(tiempo, Err_MiL_y.^2, 'r', 'LineWidth', linewidth_1)
+plot(tiempo,sqrt(Err_MiL_y.^2), 'r', 'LineWidth', linewidth_1)
 hold on
-plot(tiempo, Err_HiL_y.^2, 'b', 'LineWidth', linewidth_1)
+plot(tiempo,sqrt(Err_HiL_y.^2), 'b', 'LineWidth', linewidth_1)
 
 title('~~~~~~~~~~~~~~~~~~~~~~~(b)', 'Interpreter', 'latex')
-ylabel('ECM')
-legend({'$\mu_{m_{MiL}}$', '$\mu_{m_{HiL}}$'}, 'Interpreter', 'latex')
+ylabel('$RMSE~\mu_m$', 'Interpreter', 'latex')
+legend({'$MiL$', '$HiL$'}, 'Interpreter', 'latex')
 grid on
+
+% Figure properties
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
+ax_1.XLim = [0 t_iden(end)];
 
 %% GRAFICA 2.2
-
 axb = axes('Position', posb);
-x = [1];
-vals = ERROR(2,:);
-b2 = bar(x, vals);
+valores = ERROR(2,:);
+% Definir los datos
+etiquetas_x = {'MiL', 'HiL'}; % Etiquetas para el eje x
 
-new_labels = {'ISE_y'}; % Cambia las etiquetas según tus necesidades
-xticks(x);
-xticklabels(new_labels);
-grid on
+% Crear la gráfica de barras
+bar(valores);
 
-
- % Cambia las etiquetas de la leyenda según tus necesidades
-% Agregar la leyenda y hacer la línea más fina
-hLegend2 = legend(b2, 'MiL', 'HiL'); % Cambia las etiquetas de la leyenda según tus necesidades
-
-% Agregar el ylabel en el lado derecho
 % Obtener los límites de los ejes y
 ylim = get(gca, 'YLim');
 y_mid = mean(ylim);
-text(x + 0.6, y_mid, 'ISE', 'Rotation', -90, ...
+
+text(3.6, y_mid, '$ISE~\mu_m$', 'Interpreter', 'latex', 'Rotation', -90, ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+
+% Configurar etiquetas en el eje x
+set(gca, 'XTickLabel', etiquetas_x);
+grid on
+
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
 
 %% Grafica 3.1
 
 % Crear el tercer sistema de ejes
 ax3 = axes('Position', pos3);
-plot(tiempo, Err_MiL_z.^2, 'r', 'LineWidth', linewidth_1)
+plot(tiempo, sqrt(Err_MiL_z.^2), 'r', 'LineWidth', linewidth_1)
 hold on
-plot(tiempo, Err_HiL_z.^2, 'b', 'LineWidth', linewidth_1)
+plot(tiempo, sqrt(Err_HiL_z.^2), 'b', 'LineWidth', linewidth_1)
 
 title('~~~~~~~~~~~~~~~~~~~~~~~(c)', 'Interpreter', 'latex')
-ylabel('ECM')
+ylabel('$RMSE~\mu_n$', 'Interpreter', 'latex')
 
 legend({'$MiL$', '$HiL$'}, 'Interpreter', 'latex')
 grid on
+
+% Figure properties
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
+ax_1.XLim = [0 t_iden(end)];
 
 %%
 %% GRAFICA 3.2
 
 axc = axes('Position', posc);
-x = [1];
-vals = ERROR(3,:);
-b3 = bar(x, vals);
+valores = ERROR(3,:);
+% Definir los datos
+etiquetas_x = {'MiL', 'HiL'}; % Etiquetas para el eje x
 
-new_labels = {'ISE_y'}; % Cambia las etiquetas según tus necesidades
-xticks(x);
-xticklabels(new_labels);
+% Crear la gráfica de barras
+bar(valores);
 
- % Cambia las etiquetas de la leyenda según tus necesidades
-% Agregar la leyenda y hacer la línea más fina
-hLegend3 = legend(b3, 'MiL', 'HiL'); % Cambia las etiquetas de la leyenda según tus necesidades
-% Agregar el ylabel en el lado derecho
+% Obtener los límites de los ejes y
 ylim = get(gca, 'YLim');
 y_mid = mean(ylim);
-text(x + 0.6, y_mid, 'ISE', 'Rotation', -90, ...
+
+text(3.6, y_mid, '$ISE~\mu_n$', 'Interpreter', 'latex', 'Rotation', -90, ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+
+% Configurar etiquetas en el eje x
+set(gca, 'XTickLabel', etiquetas_x);
+grid on
+
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
 
 
 %% Grafica 4.1
 
 % Crear el cuarto sistema de ejes
 ax4 = axes('Position', pos4);
-plot(tiempo, Err_MiL_w.^2, 'r', 'LineWidth', linewidth_1)
+plot(tiempo,sqrt(Err_MiL_w.^2), 'r', 'LineWidth', linewidth_1)
 hold on
-plot(tiempo, Err_HiL_w.^2, 'b', 'LineWidth', linewidth_1)
+plot(tiempo,sqrt(Err_HiL_w.^2), 'b', 'LineWidth', linewidth_1)
 title('~~~~~~~~~~~~~~~~~~~~~~~(d)', 'Interpreter', 'latex')
-ylabel('ECM')
+ylabel('$RMSE~\omega$', 'Interpreter', 'latex')
 legend({'$MiL$', '$HiL$'}, 'Interpreter', 'latex')
 grid on
+
+% Figure properties
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
+ax_1.XLim = [0 t_iden(end)];
 
 %% GRAFICA 4.2
 
 axd = axes('Position', posd);
-x = [1];
-vals = ERROR(4,:);
-b4 = bar(x, vals);
+valores = ERROR(4,:);
+% Definir los datos
+etiquetas_x = {'MiL', 'HiL'}; % Etiquetas para el eje x
 
-new_labels = {'ISE_y'}; % Cambia las etiquetas según tus necesidades
-xticks(x);
-xticklabels(new_labels);
+% Crear la gráfica de barras
+bar(valores);
 
- % Cambia las etiquetas de la leyenda según tus necesidades
-% Agregar la leyenda y hacer la línea más fina
-hLegend4 = legend(b4, 'MiL', 'HiL'); % Cambia las etiquetas de la leyenda según tus necesidades
-
-% Limites
+% Obtener los límites de los ejes y
 ylim = get(gca, 'YLim');
 y_mid = mean(ylim);
-text(x + 0.6, y_mid, 'ISE', 'Rotation', -90, ...
+
+text(3.6, y_mid, '$ISE~\omega$', 'Interpreter', 'latex', 'Rotation', -90, ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+
+% Configurar etiquetas en el eje x
+set(gca, 'XTickLabel', etiquetas_x);
+grid on
+
+ax_1 = gca;
+ax_1.Box = 'on';
+ax_1.BoxStyle = 'full';
+ax_1.TickLength = [0.01;0.01];
+ax_1.TickDirMode = 'auto';
+% ax_1.XTickLabel = [];
+ax_1.YMinorTick = 'on';
+ax_1.XMinorTick = 'on';
+ax_1.XMinorGrid = 'on';
+ax_1.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_1.MinorGridAlpha = 0.15;
+ax_1.LineWidth = 0.8;
 
 
 set(gcf, 'Color', 'w'); % Establece el fondo de los sistemas de ejes en blanco
