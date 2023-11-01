@@ -204,10 +204,10 @@ hLegend_2 = legend([hd_plot2, h_plot_Real2, h_plot_MiL2, h_plot_HiL2],{'$\mathbf
     ax_1.YLim = [min(h_Real(3,:))-0.2 max(h_Real(3,:))+0.2];
 
 %% GRAFICA 4
-values_altura = 0.22;
+values_altura = 0.23;
 
 
-axes('Position',[0.55 0.73 .44 values_altura]);  %axes('Position',[0.05 0.37 .35 .25]);
+axes('Position',[0.55 0.70 .44 values_altura]);  %axes('Position',[0.05 0.37 .35 .25]);
 
 % Data generation
 
@@ -247,7 +247,7 @@ ax_3.XLim = [0 t_1(end)];
 
 %% GRAFICA 5
 
-axes('Position',[0.55 0.41 .44 values_altura]);
+axes('Position',[0.55 0.37 .44 .25]);
 
 
 pose_error_MiL = line(t_1(1,1:length(h_error_MiL(2,:))),h_error_MiL(2,:));
@@ -287,7 +287,7 @@ ax_3.XLim = [0 t_1(end)];
 
 %% GRAFICA 6
 
-axes('Position',[0.55 0.09 .44 values_altura]);
+axes('Position',[0.55 0.05 .44 .25]);
 % 
 pose_error_MiL = line(t_1(1,1:length(h_error_MiL(3,:))),h_error_MiL(3,:));
 set(pose_error_MiL, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
