@@ -6,14 +6,14 @@ clc, clear all, close all;
 % Load variables of the system
 value = 1250;
 %% CARGA MIL
-load('Com_din_MiL.mat');
+load('Kinetic_MiL.mat');
 
 % DAtos de estado
 h_MiL = x_states(1:4,1:end-value);
 u_MiL = x_states(5:8,1:end-value);
 
 %% CARGA HIL
-load('Com_din_HiL.mat');
+load('Kinetic_HiL.mat');
 
 % DAtos de estado
 h_HiL = x_states(1:4,1:end-value);
@@ -21,7 +21,7 @@ u_HiL = x_states(5:8,1:end-value);
 
 
 %% CARGA REAL
-load('Com_din_Real.mat');
+load('Kinetic_Real.mat');
 
 % DAtos de estado
 h_Real = x_states(1:4,1:end-value);
@@ -62,7 +62,7 @@ end
 
 
 % Figure propert%% Figures
-lw = 1.2; % linewidth 1
+lw = 1.5; % linewidth 1
 lwV = 2; % linewidth 2
 fontsizeLabel = 11; %11
 fontsizeLegend = 11;
@@ -77,6 +77,7 @@ C2 = [51 187 238]/255; % (Azul Cielo)
 C3 = [0 153 136]/255; % (Verde Agua)
 C4 = [238 119 51]/255; % (Naranja Vivo)
 C5 = [204 51 17]/255; % (Rojo Terracota)
+
 C6 = [238 51 119]/255; % (Rosa Intenso)
 C7 = [187 187 187]/255; % (Gris Plateado)
 C8 = [80 80 80]/255; % (Gris Oscuro)
@@ -90,6 +91,7 @@ C15 = [244 171 39]/255; % (Amarillo Dorado)
 C16 = [100 121 162]/255; % (Azul Grisáceo)
 C17 = [255 0 0]/255; % (Rojo Puro)
 C18 = [0 0 0]; % (Negro)
+C19 = [81, 115, 180]/255;
 
 %% New color slection
 
@@ -110,15 +112,15 @@ axes('Position',[0.05 0.57 .44 .38]);
     
     % Trayectoria 3 (h_Real) en Rosa Neón
     h_plot_Real = line(h_Real(1,:), h_Real(2,:));
-    set(h_plot_Real, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw)
-
-    % Trayectoria 1 (h_MiL) en Azul Cielo
-    h_plot_MiL = line(h_MiL(1,:), h_MiL(2,:));
-    set(h_plot_MiL, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.3*lw)
+    set(h_plot_Real, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.3*lw)
 
     % Trayectoria 2 (h_HiL) en Verde Petróleo
     h_plot_HiL = line(h_HiL(1,:), h_HiL(2,:));
     set(h_plot_HiL, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.3*lw)
+    
+    % Trayectoria 1 (h_MiL) en Azul Cielo
+    h_plot_MiL = line(h_MiL(1,:), h_MiL(2,:));
+    set(h_plot_MiL, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw)
 
     hold off  % Esto finaliza el modo de superposición de las trayectorias
 
@@ -128,7 +130,7 @@ axes('Position',[0.05 0.57 .44 .38]);
     hYLabel_1 = ylabel('$y~[m]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
     %% Legend nomeclature
-    hLegend_1 = legend([hd_plot, h_plot_Real, h_plot_MiL, h_plot_HiL ],{'$\mathbf{\eta}_d$','$\mathbf{\eta}$','$\mathbf{\eta}_{MiL}$','$\mathbf{\eta}_{HiL}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+    hLegend_1 = legend([hd_plot, h_plot_Real, h_plot_HiL, h_plot_MiL ],{'$\mathbf{\eta}_d$','$\mathbf{\eta}$','$\mathbf{\eta}_{HiL}$','$\mathbf{\eta}_{MiL}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
     set(gca,'ticklabelinterpreter','latex',...
             'fontsize',1.3*fontsizeTicks)
     % Figure properties
@@ -155,24 +157,24 @@ axes('Position',[0.05 0.09 .44 .38]);
 
 %% Desired Trajectory
     hd_plot2 = line(hd(1,:), hd(3,:));
-    set(hd_plot2, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.2*lw)
+    set(hd_plot2, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.3*lw)
 
     %% Real Trajectories
     hold on  % Esto mantiene el gráfico actual activo para que las trayectorias se superpongan
 
     % Trayectoria 3 (h_Real) en Rosa Neón
     h_plot_Real2 = line(h_Real(1,:), h_Real(3,:));
-    set(h_plot_Real2, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.2*lw)
+    set(h_plot_Real2, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.3*lw)
+    
+    % Trayectoria 2 (h_HiL) en Verde Petróleo
+    h_plot_HiL2 = line(h_HiL(1,:), h_HiL(3,:));
+    set(h_plot_HiL2, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.3*lw)
     
     % Trayectoria 1 (h_MiL) en Azul Cielo
     h_plot_MiL2 = line(h_MiL(1,:), h_MiL(3,:));
-    set(h_plot_MiL2, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.2*lw)
+    set(h_plot_MiL2, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw)
 
-    % Trayectoria 2 (h_HiL) en Verde Petróleo
-    h_plot_HiL2 = line(h_HiL(1,:), h_HiL(3,:));
-    set(h_plot_HiL2, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.2*lw)
-
-    
+   
 
     hold off  % Esto finaliza el modo de superposición de las trayectorias
 
@@ -182,7 +184,7 @@ hXLabel_2 = xlabel('$x~[m]$','fontsize',9,'interpreter','latex', 'Color',C18);
 hYLabel_2 = ylabel('$z~[m]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_2 = legend([hd_plot2, h_plot_Real2, h_plot_MiL2, h_plot_HiL2],{'$\mathbf{\eta}_d$', '$\mathbf{\eta}$','$\mathbf{\eta}_{MiL}$','$\mathbf{\eta}_{HiL}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_2 = legend([hd_plot2, h_plot_Real2, h_plot_HiL2, h_plot_MiL2],{'$\mathbf{\eta}_d$', '$\mathbf{\eta}$','$\mathbf{\eta}_{HiL}$','$\mathbf{\eta}_{MiL}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
     set(gca,'ticklabelinterpreter','latex',...
             'fontsize',1.3*fontsizeTicks)
 % Figure properties
@@ -207,18 +209,18 @@ hLegend_2 = legend([hd_plot2, h_plot_Real2, h_plot_MiL2, h_plot_HiL2],{'$\mathbf
 values_altura = 0.23;
 
 
-axes('Position',[0.55 0.70 .44 values_altura]);  %axes('Position',[0.05 0.37 .35 .25]);
+axes('Position',[0.55 0.72 .44 values_altura]);  %axes('Position',[0.05 0.37 .35 .25]);
 
 % Data generation
 
 pose_error_MiL = line(t_1(1,1:length(h_error_MiL(1,:))),h_error_MiL(1,:));
-set(pose_error_MiL, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
+set(pose_error_MiL, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
 
 pose_error_HiL = line(t_1(1,1:length(h_error_HiL(1,:))),h_error_HiL(1,:));
 set(pose_error_HiL, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
 
 pose_error_Real = line(t_1(1,1:length(h_error_Real(1,:))),h_error_Real(1,:));
-set(pose_error_Real, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
+set(pose_error_Real, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
 
 % Title of the image
 hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
@@ -247,20 +249,20 @@ ax_3.XLim = [0 t_1(end)];
 
 %% GRAFICA 5
 
-axes('Position',[0.55 0.37 .44 .25]);
+axes('Position',[0.55 0.405 .44 values_altura]);
 
 
 pose_error_MiL = line(t_1(1,1:length(h_error_MiL(2,:))),h_error_MiL(2,:));
-set(pose_error_MiL, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
+set(pose_error_MiL, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
 
 pose_error_HiL = line(t_1(1,1:length(h_error_HiL(2,:))),h_error_HiL(2,:));
 set(pose_error_HiL, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
 
 pose_error_Real = line(t_1(1,1:length(h_error_Real(2,:))),h_error_Real(2,:));
-set(pose_error_Real, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
+set(pose_error_Real, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
 
 % Title of the image
-hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+hTitle_3 = title({'$\textrm{(d)}$'},'fontsize',14,'interpreter','latex','Color',C18);
 %xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
@@ -287,19 +289,19 @@ ax_3.XLim = [0 t_1(end)];
 
 %% GRAFICA 6
 
-axes('Position',[0.55 0.05 .44 .25]);
+axes('Position',[0.55 0.09 .44 values_altura]);
 % 
 pose_error_MiL = line(t_1(1,1:length(h_error_MiL(3,:))),h_error_MiL(3,:));
-set(pose_error_MiL, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
+set(pose_error_MiL, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
 
 pose_error_HiL = line(t_1(1,1:length(h_error_HiL(3,:))),h_error_HiL(3,:));
 set(pose_error_HiL, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
 
 pose_error_Real = line(t_1(1,1:length(h_error_Real(3,:))),h_error_Real(3,:));
-set(pose_error_Real, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
+set(pose_error_Real, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
 
 % Title of the image
-hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+hTitle_3 = title({'$\textrm{(e)}$'},'fontsize',14,'interpreter','latex','Color',C18);
 xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
@@ -328,7 +330,7 @@ ax_3.XLim = [0 t_1(end)];
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Dinamic_control_pose_comp.pdf -q101
+export_fig D_Kinetic_Controler.pdf -q101
 
 %% RMS dynamics
 

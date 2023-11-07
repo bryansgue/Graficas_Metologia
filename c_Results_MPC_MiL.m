@@ -220,7 +220,7 @@ ax_1_zoom.XMinorTick = 'on';
 ax_1_zoom.LineWidth = 0.5;
 ax_1_zoom.XMinorGrid = 'on';
 ax_1_zoom.YMinorGrid = 'on';
-axes('Position',[0.46 0.28 .54 .31]);
+axes('Position',[0.45 0.28 .54 .31]);
 %% Data generation
 error_vx_plot = line(t(1,1:length(u(1,:))),u(1,:));
 set(error_vx_plot, 'LineStyle', '-', 'Color', C7, 'LineWidth', 1.3*lw);
@@ -255,11 +255,5 @@ ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Dynamics_real_results_b.pdf -q101
+export_fig c_Results_MPC_MiL.pdf -q101
 
-%% RMS dynamics
-RMSE_x_dynamic = sqrt(mean((error_vector(1,:)).^2));
-RMSE_y_dynamic = sqrt(mean((error_vector(2,:)).^2));
-RMSE_z_dynamic = sqrt(mean((error_vector(3,:)).^2));
-
-save("Dynamic_real_rmse.mat","RMSE_x_dynamic", "RMSE_y_dynamic", "RMSE_z_dynamic", "error_dynamic");

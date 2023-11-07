@@ -257,7 +257,7 @@ ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Dynamics_real_results_b.pdf -q101
+%export_fig Dynamics_real_results_b.pdf -q101
 
 %% CHI
 figure (2)

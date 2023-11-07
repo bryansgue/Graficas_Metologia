@@ -6,14 +6,14 @@ clc, clear all, close all;
 % Load variables of the system
 value = 1250;
 %% CARGA MIL
-load('Com_din_MiL.mat');
+load('MPC_MiL.mat');
 
 % DAtos de estado
 h_MiL = x_states(1:4,1:end-value);
 u_MiL = x_states(5:8,1:end-value);
 
 %% CARGA HIL
-load('Com_din_HiL.mat');
+load('MPC_HiL.mat');
 
 % DAtos de estado
 h_HiL = x_states(1:4,1:end-value);
@@ -21,17 +21,17 @@ u_HiL = x_states(5:8,1:end-value);
 
 
 %% CARGA REAL
-load('Com_din_Real.mat');
+load('MPC_Real.mat');
 
 % DAtos de estado
 h_Real = x_states(1:4,1:end-value);
 u_Real = x_states(5:8,1:end-value);
 
 %% Tarea deseada
-hd = ref(1:4,1:end-value);
-hd_p = ref(5:8,1:end-value);
+hd = ref(1:4,1:end-value-31);
+hd_p = ref(5:8,1:end-value-31);
 
-t_1 = t_time(1:end-value);
+t_1 = t_time(1:end-value-31);
 % Error definition
 for k = 1:length(t_1)
     
@@ -330,5 +330,9 @@ ax_3.XLim = [0 t_1(end)];
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig D_Comp_Dinamic_Controler.pdf -q101
+export_fig D_MPC_Controler.pdf -q101
 
+%% RMS dynamics
+
+
+% save("Dynamic_real_rmse.mat","RMSE_x_dynamic", "RMSE_y_dynamic", "RMSE_z_dynamic", "error_dynamic");

@@ -8,7 +8,7 @@ clc, clear all, close all;
 value = 1250;
 value_MPC = 1250-30;
 %% CARGA MIL
-load('Kinetic_HiL.mat');
+load('Kinetic_MiL.mat');
 
 % DAtos de estado
 h_Kinetic = x_states(1:4,1:end-value);
@@ -18,7 +18,7 @@ hd = ref(1:4,1:end-value);
 hd_p = ref(5:8,1:end-value);
 
 %% CARGA HIL
-load('Com_din_HiL.mat');
+load('Com_din_MiL.mat');
 
 % DAtos de estado
 h_Dinamic = x_states(1:4,1:end-value);
@@ -26,7 +26,7 @@ u_Dinamic = x_states(5:8,1:end-value);
 
 
 %% CARGA REAL
-load('MPC_HiL.mat');
+load('MPC_MiL.mat');
 
 % DAtos de estado
 h_MPC = x_states(1:4,1:end-value_MPC);
@@ -90,7 +90,7 @@ RMSE_MPC_z = (mean(h_error_MPC(3, :).^2));
 
 
 % Figure propert%% Figures
-lw = 1.2; % linewidth 1
+lw = 1.5; % linewidth 1
 lwV = 2; % linewidth 2
 fontsizeLabel = 11; %11
 fontsizeLegend = 11;
@@ -118,6 +118,7 @@ C15 = [244 171 39]/255; % (Amarillo Dorado)
 C16 = [100 121 162]/255; % (Azul Grisáceo)
 C17 = [255 0 0]/255; % (Rojo Puro)
 C18 = [0 0 0]; % (Negro)
+C19 = [81, 115, 180]/255;
 
 %% New color slection
 
@@ -126,7 +127,7 @@ set(gcf, 'Position', [500 500 sizeX sizeY]);
 fig1_comps.fig = gcf;
 
 % Figure 1
-axes('Position',[0.05 0.5 .44 .44]);
+axes('Position',[0.05 0.57 .44 .38]);
 %% MIL TRAYECTORIA
 
     %% Desired Trajectory
@@ -140,15 +141,15 @@ axes('Position',[0.05 0.5 .44 .44]);
 
     % Trayectoria 1 (h_MiL) en Azul Cielo
     h_plot_Kinetic = line(h_Kinetic(1,:), h_Kinetic(2,:));
-    set(h_plot_Kinetic, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.3*lw)
+    set(h_plot_Kinetic, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw)
 
     % Trayectoria 2 (h_HiL) en Verde Petróleo
     h_plot_Dinamic = line(h_Dinamic(1,:), h_Dinamic(2,:));
-    set(h_plot_Dinamic, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.3*lw)
+    set(h_plot_Dinamic, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw)
     
     % Trayectoria 3 (h_Real) en Rosa Neón
     h_plot_MPC = line(h_MPC(1,:), h_MPC(2,:));
-    set(h_plot_MPC, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw)
+    set(h_plot_MPC, 'LineStyle', '-', 'Color', C19, 'LineWidth', 1.3*lw)
 
     hold off  % Esto finaliza el modo de superposición de las trayectorias
 
@@ -158,7 +159,7 @@ axes('Position',[0.05 0.5 .44 .44]);
     hYLabel_1 = ylabel('$y~[m]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
     %% Legend nomeclature
-    hLegend_1 = legend([hd_plot, h_plot_Kinetic, h_plot_Dinamic,  h_plot_MPC ],{'$\mathbf{\eta}_d$','$\mathbf{\eta}_{Kinetic}$','$\mathbf{\eta}_{Dinamic}$','$\mathbf{\eta}_{MPC}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+    hLegend_1 = legend([hd_plot, h_plot_Kinetic, h_plot_Dinamic,  h_plot_MPC ],{'$\mathbf{\eta}_d$','$\mathbf{\eta}_{Kinetic}$','$\mathbf{\eta}_{Dynamic}$','$\mathbf{\eta}_{MPC}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
     set(gca,'ticklabelinterpreter','latex',...
             'fontsize',1.3*fontsizeTicks)
     % Figure properties
@@ -179,13 +180,13 @@ axes('Position',[0.05 0.5 .44 .44]);
     ax_1.YLim = [min(h_Kinetic(2,:))-0.2 max(h_Kinetic(2,:))+0.2];
 
 % Figure 2
-axes('Position',[0.05 0.05 .44 .44]);
+axes('Position',[0.05 0.09 .44 .38]);
 %% Colorbar
 
 
 %% Desired Trajectory
     hd_plot2 = line(hd(1,:), hd(3,:));
-    set(hd_plot2, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.2*lw)
+    set(hd_plot2, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.3*lw)
 
     %% Real Trajectories
     hold on  % Esto mantiene el gráfico actual activo para que las trayectorias se superpongan
@@ -194,15 +195,15 @@ axes('Position',[0.05 0.05 .44 .44]);
     
     % Trayectoria 1 (h_MiL) en Azul Cielo
     h_plot_Kinetic2 = line(h_Kinetic(1,:), h_Kinetic(3,:));
-    set(h_plot_Kinetic2, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.2*lw)
+    set(h_plot_Kinetic2, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw)
 
     % Trayectoria 2 (h_HiL) en Verde Petróleo
     h_plot_Dinamic2 = line(h_Dinamic(1,:), h_Dinamic(3,:));
-    set(h_plot_Dinamic2, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.2*lw)
+    set(h_plot_Dinamic2, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw)
 
     % Trayectoria 3 (h_Real) en Rosa Neón
     h_plot_MPC2 = line(h_MPC(1,:), h_MPC(3,:));
-    set(h_plot_MPC2, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.2*lw)
+    set(h_plot_MPC2, 'LineStyle', '-', 'Color', C19, 'LineWidth', 1.3*lw)
 
     hold off  % Esto finaliza el modo de superposición de las trayectorias
 
@@ -274,114 +275,108 @@ hLegend_2 = legend([hd_plot2, h_plot_Kinetic2, h_plot_Dinamic2, h_plot_MPC2],{'$
 % ax_3.LineWidth = 0.8;
 % ax_3.XLim = [0 t_1(end)];
 
-axes('Position',[0.55 0.70 .44 .25]);  %axes('Position',[0.05 0.37 .35 .25]);
-%% Data generation
-pose_desired = line(t_1(1,1:length(hd(1,:))),hd(1,:));
-set(pose_desired , 'LineStyle', '-', 'Color', C8, 'LineWidth', 1.1*lw);
-
-pose_Kinetic = line(t_1(1,1:length(h_Kinetic(1,:))),h_Kinetic(1,:));
-set(pose_Kinetic, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
-
-pose_Dinamic = line(t_1(1,1:length(h_Dinamic(1,:))),h_Dinamic(1,:));
-set(pose_Dinamic, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
-
-pose_MPC = line(t_1(1,1:length(h_MPC(1,:))),h_MPC(1,:));
-set(pose_MPC, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
-
-% fig1_comps.p1 = ul_plot;
-%% Title of the image
-hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
-xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
-ylabel('$\textrm{Inertial Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
-
-%% Legend nomeclature
-hLegend_3 = legend([pose_desired, pose_Kinetic, pose_Dinamic, pose_MPC],{'${\mathbf{\eta}_d}$','$\|\tilde{\mathbf{\eta}}\|_{Kinetic}$','$\|\tilde{\mathbf{\eta}}\|_{Dinamic}$','$\|\tilde{\mathbf{\eta}}\|_{MPC}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
- set(gca,'ticklabelinterpreter','latex',...
-         'fontsize',1.3*fontsizeTicks)
-%% Figure properties
-ax_3 = gca;
-ax_3.Box = 'on';
-ax_3.BoxStyle = 'full';
-ax_3.TickLength = [0.01;0.01];
-ax_3.TickDirMode = 'auto';
-% ax_3.XTickLabel = [];
-ax_3.YMinorTick = 'on';
-ax_3.XMinorTick = 'on';
-ax_3.XMinorGrid = 'on';
-ax_3.YMinorGrid = 'on';
-%ax_1.MinorGridColor = '#8f8f8f';
-ax_3.MinorGridAlpha = 0.15;
-ax_3.LineWidth = 0.8;
-ax_3.XLim = [0 t_1(end)];
-
-%%
-
-axes('Position',[0.55 0.37 .44 .25]);
-% 
-
-pose_desired = line(t_1(1,1:length(hd(2,:))),hd(2,:));
-set(pose_desired , 'LineStyle', '-', 'Color', C8, 'LineWidth', 1.1*lw);
-
-pose_Kinetic = line(t_1(1,1:length(h_Kinetic(2,:))),h_Kinetic(2,:));
-set(pose_Kinetic, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
-
-pose_Dinamic = line(t_1(1,1:length(h_Dinamic(2,:))),h_Dinamic(2,:));
-set(pose_Dinamic, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
-
-pose_MPC = line(t_1(1,1:length(h_MPC(2,:))),h_MPC(2,:));
-set(pose_MPC, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
-
-% fig1_comps.p1 = ul_plot;
-%% Title of the image
-hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
-xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
-ylabel('$\textrm{Inertial Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
-
-%% Legend nomeclature
-hLegend_3 = legend([pose_Kinetic, pose_Dinamic, pose_MPC],{'$\|\tilde{\mathbf{\eta}}\|_{Kinetic}$','$\|\tilde{\mathbf{\eta}}\|_{Dinamic}$','$\|\tilde{\mathbf{\eta}}\|_{MPC}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
- set(gca,'ticklabelinterpreter','latex',...
-         'fontsize',1.3*fontsizeTicks)
-%% Figure properties
-ax_3 = gca;
-ax_3.Box = 'on';
-ax_3.BoxStyle = 'full';
-ax_3.TickLength = [0.01;0.01];
-ax_3.TickDirMode = 'auto';
-% ax_3.XTickLabel = [];
-ax_3.YMinorTick = 'on';
-ax_3.XMinorTick = 'on';
-ax_3.XMinorGrid = 'on';
-ax_3.YMinorGrid = 'on';
-%ax_1.MinorGridColor = '#8f8f8f';
-ax_3.MinorGridAlpha = 0.15;
-ax_3.LineWidth = 0.8;
-ax_3.XLim = [0 t_1(end)];
+%% GRAFICA 4
+values_altura = 0.23;
 
 
-%% TERCER GRAFICO
+axes('Position',[0.55 0.72 .44 values_altura]);  %axes('Position',[0.05 0.37 .35 .25]);
 
-axes('Position',[0.55 0.05 .44 .25]);
-% 
-pose_desired = line(t_1(1,1:length(hd(3,:))),hd(3,:));
-set(pose_desired , 'LineStyle', '-', 'Color', C8, 'LineWidth', 1.1*lw);
+% Data generation
 
-pose_Kinetic = line(t_1(1,1:length(h_Kinetic(3,:))),h_Kinetic(3,:));
-set(pose_Kinetic, 'LineStyle', '-', 'Color', C10, 'LineWidth', 1.1*lw);
+pose_error_Kinetic = line(t_1(1,1:length(h_error_Kinetic(1,:))),h_error_Kinetic(1,:));
+set(pose_error_Kinetic, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.1*lw);
 
-pose_Dinamic = line(t_1(1,1:length(h_Dinamic(3,:))),h_Dinamic(3,:));
-set(pose_Dinamic, 'LineStyle', '-', 'Color', C4, 'LineWidth', 1.1*lw);
+pose_error_Dinamic = line(t_1(1,1:length(h_error_Dinamic(1,:))),h_error_Dinamic(1,:));
+set(pose_error_Dinamic, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.1*lw);
 
-pose_MPC = line(t_1(1,1:length(h_MPC(3,:))),h_MPC(3,:));
-set(pose_MPC, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.1*lw);
-
+pose_error_MPC = line(t_1(1,1:length(h_error_MPC(1,:))),h_error_MPC(1,:));
+set(pose_error_MPC, 'LineStyle', '-', 'Color', C19, 'LineWidth', 1.1*lw);
 
 % Title of the image
 hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
-xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
-ylabel('$\textrm{Inertial Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
+%xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$\textrm{Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 % Legend nomeclature
-hLegend_3 = legend([pose_Kinetic, pose_Dinamic, pose_MPC],{'$\|\tilde{\mathbf{\eta}}\|_{Kinetic}$','$\|\tilde{\mathbf{\eta}}\|_{Dinamic}$','$\|\tilde{\mathbf{\eta}}\|_{MPC}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_3 = legend([pose_error_Kinetic, pose_error_Dinamic, pose_error_MPC],{'$\tilde{\mathbf{\eta}}_{x_{Kinetic}}$','$\tilde{\mathbf{\eta}}_{x_{Dynamic}}$','$\tilde{\mathbf{\eta}}_{x_{MPC}}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',1.3*fontsizeTicks)
+% Figure properties
+ax_3 = gca;
+ax_3.Box = 'on';
+ax_3.BoxStyle = 'full';
+ax_3.TickLength = [0.01;0.01];
+ax_3.TickDirMode = 'auto';
+% ax_3.XTickLabel = [];
+ax_3.YMinorTick = 'on';
+ax_3.XMinorTick = 'on';
+ax_3.XMinorGrid = 'on';
+ax_3.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_3.MinorGridAlpha = 0.15;
+ax_3.LineWidth = 0.8;
+ax_3.XLim = [0 t_1(end)];
+
+%% GRAFICA 5
+
+axes('Position',[0.55 0.405 .44 values_altura]);
+
+
+pose_error_Kinetic = line(t_1(1,1:length(h_error_Kinetic(2,:))),h_error_Kinetic(2,:));
+set(pose_error_Kinetic, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.1*lw);
+
+pose_error_Dinamic = line(t_1(1,1:length(h_error_Dinamic(2,:))),h_error_Dinamic(2,:));
+set(pose_error_Dinamic, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.1*lw);
+
+pose_error_MPC = line(t_1(1,1:length(h_error_MPC(2,:))),h_error_MPC(2,:));
+set(pose_error_MPC, 'LineStyle', '-', 'Color', C19, 'LineWidth', 1.1*lw);
+
+% Title of the image
+hTitle_3 = title({'$\textrm{(d)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+%xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$\textrm{Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+% Legend nomeclature
+hLegend_3 = legend([pose_error_Kinetic, pose_error_Dinamic, pose_error_MPC],{'$\tilde{\mathbf{\eta}}_{y_{Kinetic}}$','$\tilde{\mathbf{\eta}}_{y_{Dynamic}}$','$\tilde{\mathbf{\eta}}_{y_{MPC}}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',1.3*fontsizeTicks)
+% Figure properties
+ax_3 = gca;
+ax_3.Box = 'on';
+ax_3.BoxStyle = 'full';
+ax_3.TickLength = [0.01;0.01];
+ax_3.TickDirMode = 'auto';
+% ax_3.XTickLabel = [];
+ax_3.YMinorTick = 'on';
+ax_3.XMinorTick = 'on';
+ax_3.XMinorGrid = 'on';
+ax_3.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_3.MinorGridAlpha = 0.15;
+ax_3.LineWidth = 0.8;
+ax_3.XLim = [0 t_1(end)];
+
+
+%% GRAFICA 6
+
+axes('Position',[0.55 0.09 .44 values_altura]);
+% 
+pose_error_Kinetic = line(t_1(1,1:length(h_error_Kinetic(3,:))),h_error_Kinetic(3,:));
+set(pose_error_Kinetic, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.1*lw);
+
+pose_error_Dinamic = line(t_1(1,1:length(h_error_Dinamic(3,:))),h_error_Dinamic(3,:));
+set(pose_error_Dinamic, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.1*lw);
+
+pose_error_MPC = line(t_1(1,1:length(h_error_MPC(3,:))),h_error_MPC(3,:));
+set(pose_error_MPC, 'LineStyle', '-', 'Color', C19, 'LineWidth', 1.1*lw);
+
+% Title of the image
+hTitle_3 = title({'$\textrm{(e)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+%xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$\textrm{Pose Error}[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+% Legend nomeclature
+hLegend_3 = legend([pose_error_Kinetic, pose_error_Dinamic, pose_error_MPC],{'$\tilde{\mathbf{\eta}}_{z_{Kinetic}}$','$\tilde{\mathbf{\eta}}_{z_{Dynamic}}$','$\tilde{\mathbf{\eta}}_{z_{MPC}}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 % Figure properties
@@ -404,7 +399,7 @@ ax_3.XLim = [0 t_1(end)];
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig E_Comp_ALL_HiL.pdf -q101
+export_fig E_Comp_ALL_MiL.pdf -q101
 
 %% RMS dynamics
 

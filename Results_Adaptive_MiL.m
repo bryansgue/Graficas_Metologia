@@ -18,8 +18,7 @@ hd_p = ref(5:8,:);
 
 % Action de control dinamica
 u = u_input;
-% Parametros dinamicos adaptativos
-u = u_input;
+
 
 % Error definition
 for k = 1:length(t)
@@ -222,6 +221,7 @@ ax_1_zoom.XMinorTick = 'on';
 ax_1_zoom.LineWidth = 0.5;
 ax_1_zoom.XMinorGrid = 'on';
 ax_1_zoom.YMinorGrid = 'on';
+
 axes('Position',[0.46 0.28 .54 .31]);
 %% Data generation
 error_vx_plot = line(t(1,1:length(u(1,:))),u(1,:));
@@ -257,16 +257,39 @@ ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Dynamics_real_results_b.pdf -q101
+export_fig g_Results_Adaptive_MiL.pdf -q101
 
 %% CHI
-figure (2)
+
+figure('Position', [500 500 sizeX sizeY])
+set(gcf, 'Position', [500 500 sizeX sizeY]);
+fig1_comps.fig = gcf;
+
+axes('Position',[0.05 0.5 .5 .37]);
 % Etiquetas para los parámetros en formato LaTeX
 param_labels = {'$\xi_1$', '$\xi_2$', '$\xi_3$', '$\xi_4$', '$\xi_5$', '$\xi_6$', '$\xi_7$', '$\xi_8$', '$\xi_9$', '$\xi_{10}$', '$\xi_{11}$', '$\xi_{12}$', '$\xi_{13}$', '$\xi_{14}$', '$\xi_{15}$', '$\xi_{16}$', '$\xi_{17}$', '$\xi_{18}$', '$\xi_{19}$'};
 
 % Graficar los datos de chi_adaptive
-plot(chi_adaptive')
+plot(t,chi_adaptive')
 legend(param_labels, 'Location', 'Best', 'Interpreter', 'latex');
-xlabel('Iteración');
-ylabel('Valor del Parámetro');
-title('Gráfica de los 19 Parámetros');
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$\textrm{Valor}$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+
+ax_4 = gca;
+ax_4.Box = 'on';
+ax_4.BoxStyle = 'full';
+ax_4.TickLength = [0.01;0.01];
+ax_4.TickDirMode = 'auto';
+ax_4.YMinorTick = 'on';
+ax_4.XMinorTick = 'on';
+ax_4.XMinorGrid = 'on';
+ax_4.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_4.MinorGridAlpha = 0.15;
+ax_4.LineWidth = 0.8;
+ax_4.XLim = [0 t(end)];
+
+%%
+set(gcf, 'Color', 'w'); % Sets axes background
+export_fig h_Results_Chi_MiL.pdf -q101
