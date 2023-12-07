@@ -174,7 +174,7 @@ hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',
 ylabel('$\textrm{Control Error}~[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -192,6 +192,7 @@ ax_3.YMinorGrid = 'on';
 ax_3.MinorGridAlpha = 0.15;
 ax_3.LineWidth = 0.8;
 ax_3.XLim = [0 t(end)];
+ax_3.YLim = [-3.5, 4]; % Establecer los límites en Y
 
 %% Zoom Plot
 axes('Position',[0.70 0.85 .2 .1]);
@@ -223,11 +224,11 @@ ax_1_zoom.YMinorGrid = 'on';
 axes('Position',[0.45 0.28 .54 .31]);
 %% Data generation
 error_vx_plot = line(t(1,1:length(u(1,:))),u(1,:));
-set(error_vx_plot, 'LineStyle', '-', 'Color', C7, 'LineWidth', 1.3*lw);
+set(error_vx_plot, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw);
 error_vy_plot = line(t(1,1:length(u(2,:))),u(2,:));
-set(error_vy_plot, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw);
+set(error_vy_plot, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw);
 error_vz_plot = line(t(1,1:length(u(3,:))),u(3,:));
-set(error_vz_plot, 'LineStyle', '-', 'Color', C15, 'LineWidth', 1.3*lw);
+set(error_vz_plot, 'LineStyle', '-', 'Color', c7, 'LineWidth', 1.3*lw);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
@@ -236,7 +237,7 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Inputs}~[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_4 = legend([error_vx_plot,error_vy_plot, error_vz_plot],{'${\mu}_{l_{ref}}$','${\mu}_{m_{ref}}$','${\mu}_{n_{ref}}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_4 = legend([error_vx_plot,error_vy_plot, error_vz_plot],{'${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -253,7 +254,9 @@ ax_4.YMinorGrid = 'on';
 ax_4.MinorGridAlpha = 0.15;
 ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
+ax_4.YLim = [-5.7, 5.0]; % Establecer los límites en Y
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
+%%
 export_fig c_Results_MPC_Real.pdf -q101
 

@@ -4,11 +4,12 @@
 clc, clear all, close all;
  
 %% CARGA MIL
-load('Kinetic_MiL.mat');
+% Cargar la estructura desde el archivo .mat
+load('Adaptive_HiL.mat');
 
 % DAtos de estado
-h_MiL = x_states(1:4,:);
-u_MiL = x_states(5:8,:);
+h_HiL = x_states(1:4,:);
+u_HiL = x_states(5:8,:);
 t = t_time;
 
 %%Tarea deseada
@@ -16,11 +17,13 @@ hd = ref(1:4,:);
 hd_p = ref(5:8,:);
 
 % Action de control dinamica
+u = u_input;
 uc = uc_input;
+
 
 % Error definition
 for k = 1:length(t)
-    error_vector = hd(1:3, k)-h_MiL(1:3, k);
+    error_vector = hd(1:3, k)-h_HiL(1:3, k);
     error_dynamic(k) = norm(error_vector,2);
 end
 
@@ -72,7 +75,7 @@ fig1_comps.fig = gcf;
 % Figure 1
 axes('Position',[0.04 0.65 .35 .31]);
 %% Colorbar
-scatter(h_MiL(1, :),h_MiL(2, :),30,error_dynamic,'filled','MarkerFaceAlpha',0.7);
+scatter(h_HiL(1, :),h_HiL(2, :),30,error_dynamic,'filled','MarkerFaceAlpha',0.7);
 c = colorbar;
 c.Label.Interpreter = 'latex';
 c.Label.String = '$\textrm{Error}~||\tilde{\mathbf{\eta}}||$';
@@ -84,7 +87,7 @@ hd_plot = line(hd(1,:),hd(2,:));
 set(hd_plot, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.2*lw)
 
 %% Real Trajectory
-h_plot = line(h_MiL(1,:),h_MiL(2,:));
+h_plot = line(h_HiL(1,:),h_HiL(2,:));
 set(h_plot, 'LineStyle', '-', 'Color', C18, 'LineWidth', 1.2*lw)
 
 %% Title of the image
@@ -110,13 +113,13 @@ ax_1.YMinorGrid = 'on';
 %ax_2.MinorGridColor = '#8f8f8f';
 ax_1.MinorGridAlpha = 0.15;
 ax_1.LineWidth = 0.8;
-ax_1.XLim = [min(h_MiL(1,:))-0.2 max(h_MiL(1,:))+0.2];
-ax_1.YLim = [min(h_MiL(2,:))-0.2 max(h_MiL(2,:))+0.2];
+ax_1.XLim = [min(h_HiL(1,:))-0.2 max(h_HiL(1,:))+0.2];
+ax_1.YLim = [min(h_HiL(2,:))-0.2 max(h_HiL(2,:))+0.2];
 
 % Figure 2
 axes('Position',[0.04 0.28 .35 .31]);
 %% Colorbar
-scatter(h_MiL(1, :),h_MiL(3, :),30,error_dynamic,'filled','MarkerFaceAlpha',0.7);
+scatter(h_HiL(1, :),h_HiL(3, :),30,error_dynamic,'filled','MarkerFaceAlpha',0.7);
 c = colorbar;
 c.Label.Interpreter = 'latex';
 c.Label.String = '$\textrm{Error}~||\tilde{\mathbf{\eta}}||$';
@@ -128,7 +131,7 @@ hd_plot_2 = line(hd(1,:),hd(3,:));
 set(hd_plot_2, 'LineStyle', '--', 'Color', C8, 'LineWidth', 1.2*lw)
 
 %% Real Trajectory
-h_plot_2 = line(h_MiL(1,:),h_MiL(3,:));
+h_plot_2 = line(h_HiL(1,:),h_HiL(3,:));
 set(h_plot_2, 'LineStyle', '-', 'Color', C18, 'LineWidth', 1.2*lw)
 
 %% Title of the image
@@ -154,16 +157,16 @@ ax_2.YMinorGrid = 'on';
 %ax_2.MinorGridColor = '#8f8f8f';
 ax_2.MinorGridAlpha = 0.15;
 ax_2.LineWidth = 0.8;
-ax_2.XLim = [min(h_MiL(1,:))-0.2 max(h_MiL(1,:))+0.2];
-ax_2.YLim = [min(h_MiL(3,:))-0.2 max(h_MiL(3,:))+0.2];
+ax_2.XLim = [min(h_HiL(1,:))-0.2 max(h_HiL(1,:))+0.2];
+ax_2.YLim = [min(h_HiL(3,:))-0.2 max(h_HiL(3,:))+0.2];
 
 axes('Position',[0.45 0.65 .54 .31]);
 %% Data generation
-error_x_plot = line(t,hd(1,:)-h_MiL(1,:));
+error_x_plot = line(t,hd(1,:)-h_HiL(1,:));
 set(error_x_plot, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.1*lw);
-error_y_plot = line(t,hd(2,:)-h_MiL(2,:));
+error_y_plot = line(t,hd(2,:)-h_HiL(2,:));
 set(error_y_plot, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.1*lw);
-error_z_plot = line(t,hd(3,:)-h_MiL(3,:));
+error_z_plot = line(t,hd(3,:)-h_HiL(3,:));
 set(error_z_plot, 'LineStyle', '-', 'Color', c7, 'LineWidth', 1.1*lw);
 
 % fig1_comps.p1 = ul_plot;
@@ -191,18 +194,14 @@ ax_3.YMinorGrid = 'on';
 ax_3.MinorGridAlpha = 0.15;
 ax_3.LineWidth = 0.8;
 ax_3.XLim = [0 t(end)];
-
 ax_3.YLim = [-3, 4]; % Establecer los límites en Y
-% ax_3.YTick = -3:1:4;
-
-
 
 %% Zoom Plot
 axes('Position',[0.70 0.85 .2 .1]);
 index_zoom_1 = (t>=20) & (t<=30);
-error_x_plot_zoom = line(t(index_zoom_1),hd(1,(index_zoom_1))-h_MiL(1,(index_zoom_1)));
-error_y_plot_zoom = line(t(index_zoom_1),hd(2,(index_zoom_1))-h_MiL(2,(index_zoom_1)));
-error_z_plot_zoom = line(t(index_zoom_1),hd(3,(index_zoom_1))-h_MiL(3,(index_zoom_1)));
+error_x_plot_zoom = line(t(index_zoom_1),hd(1,(index_zoom_1))-h_HiL(1,(index_zoom_1)));
+error_y_plot_zoom = line(t(index_zoom_1),hd(2,(index_zoom_1))-h_HiL(2,(index_zoom_1)));
+error_z_plot_zoom = line(t(index_zoom_1),hd(3,(index_zoom_1))-h_HiL(3,(index_zoom_1)));
 
 set(error_x_plot_zoom, 'LineStyle', '-', 'Color', C5, 'LineWidth', lw*0.8);
 set(error_y_plot_zoom, 'LineStyle', '-', 'Color', C3, 'LineWidth', lw*0.8);
@@ -224,22 +223,30 @@ ax_1_zoom.XMinorTick = 'on';
 ax_1_zoom.LineWidth = 0.5;
 ax_1_zoom.XMinorGrid = 'on';
 ax_1_zoom.YMinorGrid = 'on';
+
 axes('Position',[0.45 0.28 .54 .31]);
 %% Data generation
-uc_l = line(t(1,1:length(uc(1,:))),uc(1,:));
-set(uc_l, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw);
-uc_m = line(t(1,1:length(uc(2,:))),uc(2,:));
-set(uc_m, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw);
-uc_n = line(t(1,1:length(uc(3,:))),uc(3,:));
-set(uc_n, 'LineStyle', '-', 'Color', c7, 'LineWidth', 1.3*lw);
+u_l = line(t(1,1:length(u(1,:))),u(1,:));
+set(u_l, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw);
+u_m = line(t(1,1:length(u(2,:))),u(2,:));
+set(u_m, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw);
+u_n = line(t(1,1:length(u(3,:))),u(3,:));
+set(u_n, 'LineStyle', '-', 'Color', c7, 'LineWidth', 1.3*lw);
 
+% uc_l = line(t(1,1:length(uc(1,:))),uc(1,:));
+% set(uc_l, 'LineStyle', '--', 'Color', [C5, 0.5], 'LineWidth', 1.3*lw);
+% uc_m = line(t(1,1:length(uc(2,:))),uc(2,:));
+% set(uc_m, 'LineStyle', '--', 'Color', [C3, 0.5], 'LineWidth', 1.3*lw);
+% uc_n = line(t(1,1:length(uc(3,:))),uc(3,:));
+% set(uc_n, 'LineStyle', '--', 'Color', [c7, 0.5], 'LineWidth', 1.3*lw);
+% 
+% uc_l_real = line(t(1,1:length(u_MiL(1,:))),u_MiL(1,:));
+% set(uc_l_real, 'LineStyle', '-.', 'Color', [C5, 0.4], 'LineWidth', 1.3*lw);
+% uc_m_real = line(t(1,1:length(u_MiL(2,:))),u_MiL(2,:));
+% set(uc_m_real, 'LineStyle', '-.', 'Color', [C3, 0.4], 'LineWidth', 1.3*lw);
+% uc_n_real = line(t(1,1:length(u_MiL(3,:))),u_MiL(3,:));
+% set(uc_n_real, 'LineStyle', '-.', 'Color', [c7, 0.4], 'LineWidth', 1.3*lw);
 
-uc_l_real = line(t(1,1:length(u_MiL(1,:))),u_MiL(1,:));
-set(uc_l_real, 'LineStyle', '--', 'Color', [C5, 0.5], 'LineWidth', 1.3*lw);
-uc_m_real = line(t(1,1:length(u_MiL(2,:))),u_MiL(2,:));
-set(uc_m_real, 'LineStyle', '--', 'Color', [C3, 0.5], 'LineWidth', 1.3*lw);
-uc_n_real = line(t(1,1:length(u_MiL(3,:))),u_MiL(3,:));
-set(uc_n_real, 'LineStyle', '--', 'Color', [c7, 0.5], 'LineWidth', 1.3*lw);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
@@ -248,8 +255,10 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Inputs}~[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_4 = legend([uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\nu}_{l_c}$','${\nu}_{m_c}$','${\nu}_{n_c}$', '${\nu}_{l}$','${\nu}_{m}$','${\nu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
- set(gca,'ticklabelinterpreter','latex',...
+hLegend_4 = legend([u_l,u_m, u_n],{'${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$','${\nu}_{l_c}$','${\nu}_{m_c}$','${\nu}_{n_c}$','${\nu}_{l}$','${\nu}_{m}$','${\nu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
+%hLegend_4 = legend([u_l,u_m, u_n, uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$','${\nu}_{l_c}$','${\nu}_{m_c}$','${\nu}_{n_c}$','${\nu}_{l}$','${\nu}_{m}$','${\nu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+
+set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
 ax_4 = gca;
@@ -265,11 +274,43 @@ ax_4.YMinorGrid = 'on';
 ax_4.MinorGridAlpha = 0.15;
 ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
-ax_4.YLim = [-5.7, 5.0]; % Establecer los límites en Y
-% ax_4.YTick = -5:1:5;
+ax_4.YLim = [-5.7, 12.0]; % Establecer los límites en Y
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
+export_fig g_Results_Adaptive_HiL.pdf -q101
+
+%% CHI
+
+figure('Position', [500 500 sizeX sizeY])
+set(gcf, 'Position', [500 500 sizeX sizeY]);
+fig1_comps.fig = gcf;
+
+axes('Position',[0.05 0.5 .5 .37]);
+% Etiquetas para los parámetros en formato LaTeX
+param_labels = {'$\xi_1$', '$\xi_2$', '$\xi_3$', '$\xi_4$', '$\xi_5$', '$\xi_6$', '$\xi_7$', '$\xi_8$', '$\xi_9$', '$\xi_{10}$', '$\xi_{11}$', '$\xi_{12}$', '$\xi_{13}$', '$\xi_{14}$', '$\xi_{15}$', '$\xi_{16}$', '$\xi_{17}$', '$\xi_{18}$', '$\xi_{19}$'};
+
+% Graficar los datos de chi_adaptive
+plot(t,chi_adaptive')
+legend(param_labels, 'Location', 'Best', 'Interpreter', 'latex');
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$\textrm{Valor}$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+
+ax_4 = gca;
+ax_4.Box = 'on';
+ax_4.BoxStyle = 'full';
+ax_4.TickLength = [0.01;0.01];
+ax_4.TickDirMode = 'auto';
+ax_4.YMinorTick = 'on';
+ax_4.XMinorTick = 'on';
+ax_4.XMinorGrid = 'on';
+ax_4.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_4.MinorGridAlpha = 0.15;
+ax_4.LineWidth = 0.8;
+ax_4.XLim = [0 t(end)];
+
 
 %%
-export_fig a_Results_Kinetic_MiL.pdf -q101
-
+set(gcf, 'Color', 'w'); % Sets axes background
+export_fig h_Results_Chi_MiL.pdf -q101

@@ -232,7 +232,7 @@ hLegend_2 = legend([hd_plot2, h_plot_Kinetic2, h_plot_Dinamic2, h_plot_MPC2],{'$
     ax_1.MinorGridAlpha = 0.15;
     ax_1.LineWidth = 0.8;
     ax_1.XLim = [min(h_Kinetic(1,:))-0.2 max(h_Kinetic(1,:))+0.2];
-    ax_1.YLim = [min(h_Kinetic(3,:))-0.2 max(h_Kinetic(3,:))+0.2];
+    ax_1.YLim = [min(h_Kinetic(3,:))-0.4 max(h_Kinetic(3,:))+0.2];
     
 %%     %%%%%%%%%%%%%%%%5
 % axes('Position',[0.05 0.05 .44 .25]);  %axes('Position',[0.05 0.37 .35 .25]);

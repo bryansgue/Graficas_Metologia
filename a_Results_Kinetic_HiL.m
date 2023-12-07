@@ -173,7 +173,7 @@ hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',
 ylabel('$\textrm{Control Error}~[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -191,6 +191,15 @@ ax_3.YMinorGrid = 'on';
 ax_3.MinorGridAlpha = 0.15;
 ax_3.LineWidth = 0.8;
 ax_3.XLim = [0 t(end)];
+
+% Calcular las diferencias y encontrar los valores máximo y mínimo
+diff_values = [hd(1,:) - h_HiL(1,:); hd(2,:) - h_HiL(2,:); hd(3,:) - h_HiL(3,:)];
+max_diff = max(max(diff_values)); % Máximo valor de las diferencias
+min_diff = min(min(diff_values)); % Mínimo valor de las diferencias
+
+ax_3.YLim = [min_diff-0.1, max_diff+0.1]; % Establecer los límites en Y
+ax_3.YLim = [-3, 4]; % Establecer los límites en Y
+
 
 %% Zoom Plot
 axes('Position',[0.70 0.85 .2 .1]);
@@ -222,19 +231,19 @@ ax_1_zoom.YMinorGrid = 'on';
 axes('Position',[0.45 0.28 .54 .31]); %axes('Position',[0.45 0.65 .54 .31]);
 %% Data generation
 uc_l = line(t(1,1:length(uc(1,:))),uc(1,:));
-set(uc_l, 'LineStyle', '-', 'Color', C7, 'LineWidth', 1.3*lw);
+set(uc_l, 'LineStyle', '-', 'Color', C5, 'LineWidth', 1.3*lw);
 uc_m = line(t(1,1:length(uc(2,:))),uc(2,:));
-set(uc_m, 'LineStyle', '-', 'Color', C14, 'LineWidth', 1.3*lw);
+set(uc_m, 'LineStyle', '-', 'Color', C3, 'LineWidth', 1.3*lw);
 uc_n = line(t(1,1:length(uc(3,:))),uc(3,:));
-set(uc_n, 'LineStyle', '-', 'Color', C15, 'LineWidth', 1.3*lw);
+set(uc_n, 'LineStyle', '-', 'Color', c7, 'LineWidth', 1.3*lw);
 
 
 uc_l_real = line(t(1,1:length(u_HiL(1,:))),u_HiL(1,:));
-set(uc_l_real, 'LineStyle', '--', 'Color', [C7, 0.5], 'LineWidth', 1.3*lw);
+set(uc_l_real, 'LineStyle', '--', 'Color', [C5, 0.5], 'LineWidth', 1.3*lw);
 uc_m_real = line(t(1,1:length(u_HiL(2,:))),u_HiL(2,:));
-set(uc_m_real, 'LineStyle', '--', 'Color', [C14, 0.5], 'LineWidth', 1.3*lw);
+set(uc_m_real, 'LineStyle', '--', 'Color', [C3, 0.5], 'LineWidth', 1.3*lw);
 uc_n_real = line(t(1,1:length(u_HiL(3,:))),u_HiL(3,:));
-set(uc_n_real, 'LineStyle', '--', 'Color', [C15, 0.5], 'LineWidth', 1.3*lw);
+set(uc_n_real, 'LineStyle', '--', 'Color', [c7, 0.5], 'LineWidth', 1.3*lw);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
@@ -243,7 +252,7 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Inputs}~[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_4 = legend([uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\mu}_{l_{ref}}$','${\mu}_{m_{ref}}$','${\mu}_{n}$', '${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_4 = legend([uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\nu}_{l_c}$','${\nu}_{m_c}$','${\nu}_{n_c}$', '${\nu}_{l}$','${\nu}_{m}$','${\nu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -260,13 +269,10 @@ ax_4.YMinorGrid = 'on';
 ax_4.MinorGridAlpha = 0.15;
 ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
+ax_4.YLim = [-5.7, 5.0]; % Establecer los límites en Y
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
+
+%%
 export_fig a_Results_Kinetic_HiL.pdf -q101
 
-%% RMS dynamics
-RMSE_x_dynamic = sqrt(mean((error_vector(1,:)).^2));
-RMSE_y_dynamic = sqrt(mean((error_vector(2,:)).^2));
-RMSE_z_dynamic = sqrt(mean((error_vector(3,:)).^2));
-
-save("Dynamic_real_rmse.mat","RMSE_x_dynamic", "RMSE_y_dynamic", "RMSE_z_dynamic", "error_dynamic");

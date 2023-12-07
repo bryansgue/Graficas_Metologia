@@ -174,7 +174,7 @@ hTitle_3 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',
 ylabel('$\textrm{Control Error}~[m]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_3 = legend([error_x_plot,error_y_plot, error_z_plot],{'$\tilde{\mathbf{\eta}}_x$','$\tilde{\mathbf{\eta}}_y$','$\tilde{\mathbf{\eta}}_z$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -192,6 +192,7 @@ ax_3.YMinorGrid = 'on';
 ax_3.MinorGridAlpha = 0.15;
 ax_3.LineWidth = 0.8;
 ax_3.XLim = [0 t(end)];
+ax_3.YLim = [-3, 4]; % Establecer los límites en Y
 
 %% Zoom Plot
 axes('Position',[0.70 0.85 .2 .1]);
@@ -250,7 +251,7 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$\textrm{Inputs}~[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_4 = legend([u_l,u_m, u_n, uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\mu}_{l_{ref}}$','${\mu}_{m_{ref}}$','${\mu}_{n_{ref}}$','${\mu}_{l_{c}}$','${\mu}_{m_c}$','${\mu}_{n_c}$', '${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_4 = legend([u_l,u_m, u_n, uc_l,uc_m, uc_n, uc_l_real,uc_m_real, uc_n_real ],{'${\mu}_{l}$','${\mu}_{m}$','${\mu}_{n}$','${\nu}_{l_c}$','${\nu}_{m_c}$','${\nu}_{n_c}$','${\nu}_{l}$','${\nu}_{m}$','${\nu}_{n}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','northeast','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',1.3*fontsizeTicks)
 %% Figure properties
@@ -267,7 +268,9 @@ ax_4.YMinorGrid = 'on';
 ax_4.MinorGridAlpha = 0.15;
 ax_4.LineWidth = 0.8;
 ax_4.XLim = [0 t(end)];
+ax_4.YLim = [-5.7, 5.0]; % Establecer los límites en Y
 % 
 set(gcf, 'Color', 'w'); % Sets axes background
+%%
 export_fig b_Results_Dinamic_Control_Real.pdf -q101
 
