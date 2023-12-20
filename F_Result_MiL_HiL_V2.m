@@ -116,9 +116,9 @@ set(gcf, 'Position', [500 500 sizeX sizeY]);
 fig1_comps.fig = gcf;
 
 %% Figure 1
-% axes('Position',[0.04 0.79 .45 .17]);
+ axes('Position',[0.05 0.8 1 .17]);
 %% Data generation
-subplot(4, 1,1)
+%subplot(4, 1,1)
 pos = get(gca, 'Position');
 pos(3) = pos(3) / 2;
 set(gca, 'Position', pos);
@@ -136,6 +136,7 @@ ul_HiL = line(t_iden,u_HiL(1,1:length(t_iden)));
 set(ul_HiL, 'LineStyle', '--', 'Color', C14, 'LineWidth', 1.3*linewidth_1);
 
 %% Title of the image
+title('(a)', 'Interpreter', 'latex')
 ylabel('$[m/s]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
@@ -160,7 +161,8 @@ ax_1.XLim = [0 t_iden(end)];
 
 %% Figure 2
 %axes('Position',[0.04 0.58 .45 .17]);
-subplot(4, 1,2)
+axes('Position',[0.05 0.58 1 .17]);
+
 pos = get(gca, 'Position');
 pos(3) = pos(3) / 2;
 set(gca, 'Position', pos);
@@ -179,6 +181,7 @@ set(um_HiL, 'LineStyle', '--', 'Color', C14, 'LineWidth', 1.3*linewidth_1);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
+title('(b)', 'Interpreter', 'latex')
 ylabel('$[m/s]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
@@ -203,7 +206,7 @@ ax_2.XLim = [0 t_iden(end)];
 
 %% Figure 3
 %axes('Position',[0.04 0.37 .45 .17]);
-subplot(4, 1,3)
+axes('Position',[0.05 0.37 1 .17]);
 pos = get(gca, 'Position');
 pos(3) = pos(3) / 2;
 set(gca, 'Position', pos);
@@ -222,6 +225,7 @@ set(un_HiL, 'LineStyle', '--', 'Color', C14, 'LineWidth', 1.3*linewidth_1);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
+title('(c)', 'Interpreter', 'latex')
 ylabel('$[m/s]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
@@ -247,7 +251,7 @@ ax_3.XLim = [0 t_iden(end)];
 %% Figure 4
 
 %axes('Position',[0.04 0.16 .45 .17]);
-subplot(4, 1,4)
+axes('Position',[0.05 0.16 1 .17]);
 pos = get(gca, 'Position');
 pos(3) = pos(3) / 2;
 set(gca, 'Position', pos);
@@ -266,6 +270,7 @@ set(w_HiL, 'LineStyle', '--', 'Color', C14, 'LineWidth', 1.3*linewidth_1);
 
 % fig1_comps.p1 = ul_plot;
 %% Title of the image
+title('(d)', 'Interpreter', 'latex')
 xlabel('$\textrm{Time}[s]$','fontsize',9,'interpreter','latex','Color',C18);
 ylabel('$[rad/s]$','fontsize',9,'interpreter','latex', 'Color',C18);
 
@@ -292,4 +297,4 @@ ax_4.XLim = [0 t_iden(end)];
 set(gcf, 'Color', 'w'); % Sets axes background
 
 %
-export_fig Result_MiL_HiL.pdf -q101
+export_fig Result_MiL_HiL_ref.pdf -q101
